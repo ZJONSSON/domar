@@ -18,6 +18,6 @@ with open(filename) as f:
             continue
         if collect is True:
             domur = domur + line
-    with open(str(count) + ".txt", "w") as out:
+    with open(os.path.join('out', str(count) + ".txt"), "w") as out:
         out.write(domur)
 
