@@ -15,6 +15,7 @@ with open(filename) as f:
             domur = ""
             domur = line
             collect = True
+            continue
         if collect is True:
             domur = domur + line
     with open(str(count) + ".txt", "w") as out:
