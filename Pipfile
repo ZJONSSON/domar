@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+google-cloud-vision = "*"
+google-cloud-storage = "*"
 
 [dev-packages]
 
