@@ -95,10 +95,38 @@ def async_detect_document(gcs_source_uri, gcs_destination_uri):
     # including confidence scores and bounding boxes
     print(u'Full text:\n{}'.format(
         annotation.text))
+    breaks = vision.enums.TextAnnotation.DetectedBreak.BreakType
+    paragraphs = []
+    lines = []
+
+    for page in annotation.pages:
+        for block in page.blocks:
+            for paragraph in block.paragraphs:
+                para = ""
+                line = ""
+                for word in paragraph.words:
+                    for symbol in word.symbols:
+                        line += symbol.text
+                        if symbol.property.detected_break.type == breaks.SPACE:
+                            line += ' '
+                        if symbol.property.detected_break.type == breaks.EOL_SURE_SPACE:
+                            line += ' '
+                            lines.append(line)
+                            para += line
+                            line = ''
+                        if symbol.property.detected_break.type == breaks.LINE_BREAK:
+                            lines.append(line)
+                            para += line
+                            line = ''
+                paragraphs.append(para)
+
+    print(paragraphs)
+    print("-----")
+    print(lines)
 
 
-gcs_source_uri = 'gs://domar-test/1930_1-3.pdf'
-gcs_destination_uri = 'gs://domar-test/'
+gcs_source_uri = 'gs://domar-test/pg_0001.pdf'
+gcs_destination_uri = 'gs://domar-processed/_processed'
 
 if __name__ == '__main__':
     async_detect_document(gcs_source_uri, gcs_destination_uri)
