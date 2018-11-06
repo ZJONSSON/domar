@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 google-cloud-vision = "*"
 google-cloud-storage = "*"
+django = "==2.1.3"
 
 [dev-packages]
 
