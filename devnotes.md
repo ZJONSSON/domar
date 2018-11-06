@@ -19,7 +19,7 @@ Also in a psql prompt:
 
 `ALTER ROLE lagagogn SET timezone TO 'UTC';`
 
-`GRANT ALL PRIVILEGES ON DATABASE lagagogn TO myprojectuser;`
+`GRANT ALL PRIVILEGES ON DATABASE lagagogn TO lagagogn;`
 
 
 # Django
