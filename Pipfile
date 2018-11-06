@@ -8,6 +8,7 @@ google-cloud-vision = "*"
 google-cloud-storage = "*"
 django = "~=2.1.3"
 django-environ = "*"
+"psycopg2" = "*"
 
 [dev-packages]
 
