@@ -13,21 +13,25 @@ Create a database (named 'lagagogn'). Create a user (let's call it lagagogn) wit
 
 Also in a psql prompt:
 
-ALTER ROLE lagagogn SET client_encoding TO 'utf8';
-ALTER ROLE lagagogn SET default_transaction_isolation TO 'read committed';
-ALTER ROLE lagagogn SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE lagagogn TO myprojectuser;
+`ALTER ROLE lagagogn SET client_encoding TO 'utf8';`
+
+`ALTER ROLE lagagogn SET default_transaction_isolation TO 'read committed';`
+
+`ALTER ROLE lagagogn SET timezone TO 'UTC';`
+
+`GRANT ALL PRIVILEGES ON DATABASE lagagogn TO myprojectuser;`
+
 
 # Django
 
 First of all, apply the initial migrations (from the lagagogn-django directory):
 
-python manage.py migrate
+`python manage.py migrate`
 
 then create a superuser:
 
-python manage.py createsuperuser
+`python manage.py createsuperuser`
 
 and then run the devserver:
 
-python manage.py runserver
+`python manage.py runserver`
