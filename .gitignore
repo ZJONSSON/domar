@@ -115,3 +115,5 @@ dmypy.json
 
 # pdf source file folder
 pdf/
+
+lagagogn-django/public/
