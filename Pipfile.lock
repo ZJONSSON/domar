@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7824581fd9dc36c7f1bfd68bfeb6b3919a31fc4723b1986bcb490bcd503f1ff8"
+            "sha256": "ad3e66ca7a94cf6bb76346f0d4e090cecf5773dacc703a618fa2498fb944093a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -72,10 +72,10 @@
         },
         "google-auth": {
             "hashes": [
-                "sha256:1cf96ac82fd37877e54c16264ebbb98b472de411ef87a4626cfc0b5b5df16d43",
-                "sha256:afd71b88f3ba873d86fe52aa2d352915ed579ca6b9fa3d3750c2e55656ae5aff"
+                "sha256:494e747bdc2cdeb0fa6ef85118de2ea1a563f160294cce05048c6ff563fda1bb",
+                "sha256:b08a27888e9d1c17a891b3688aacc9c6f2019d7f6c5a2e73588e6bb9a2c0fa98"
             ],
-            "version": "==1.6.0"
+            "version": "==1.6.1"
         },
         "google-cloud-core": {
             "hashes": [
@@ -94,11 +94,11 @@
         },
         "google-cloud-vision": {
             "hashes": [
-                "sha256:3ba528f8676f4386e5af50eafec6a5395666b99fdca2dbf7e9fc1025fcc5d924",
-                "sha256:50392b2c68e40dbf725c531ba4d325bd910da6441a472ed0a3fadfd0ab8548f7"
+                "sha256:4204ed637598887583400a0ae9f7714c592e720e85ba02e177f3b402d0ef9c16",
+                "sha256:81f7b51509e79a32e93cae84693dcf50741922e3d0f99929e855cd1612de8ae0"
             ],
             "index": "pypi",
-            "version": "==0.34.0"
+            "version": "==0.35.0"
         },
         "google-resumable-media": {
             "hashes": [
@@ -150,6 +150,14 @@
             ],
             "markers": "extra == 'grpc'",
             "version": "==1.16.0"
+        },
+        "gunicorn": {
+            "hashes": [
+                "sha256:aa8e0b40b4157b36a5df5e599f45c9c76d6af43845ba3b3b0efe2c70473c2471",
+                "sha256:fa2662097c66f920f53f70621c6c58ca4a3c4d3434205e608e121b5b3b71f4f3"
+            ],
+            "index": "pypi",
+            "version": "==19.9.0"
         },
         "idna": {
             "hashes": [

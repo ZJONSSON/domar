@@ -12,6 +12,7 @@ django-environ = "*"
 django-grappelli = "*"
 "pypdf2" = "*"
 "psycopg2" = "*"
+gunicorn = "*"
 
 [dev-packages]
 
