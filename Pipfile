@@ -13,6 +13,7 @@ django-grappelli = "*"
 "pypdf2" = "*"
 "psycopg2" = "*"
 gunicorn = "*"
+scrapy = "*"
 
 [dev-packages]
 
