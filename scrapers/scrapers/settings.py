@@ -1,5 +1,22 @@
 # -*- coding: utf-8 -*-
 
+import sys
+import environ
+import django
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+DJANGO_PROJECT_ROOT = env('DJANGO_PROJECT_ROOT')
+DJANGO_SETTINGS_MODULE = env('DJANGO_SETTINGS_MODULE')
+
+sys.path.append(DJANGO_PROJECT_ROOT)
+
+
+django.setup()
+
 # Scrapy settings for scrapers project
 #
 # For simplicity, this file contains only settings considered important or
