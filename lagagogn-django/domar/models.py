@@ -15,15 +15,16 @@ class Domstoll(models.Model):
 
 
 class Domur(models.Model):
-    identifier = models.CharField(max_length=20)
+    identifier = models.CharField(max_length=20, unique=True)
     domstoll = models.ForeignKey(Domstoll, on_delete=models.CASCADE, verbose_name="dómstóll")
-    parties = models.CharField(max_length=255, blank=False, default="")
-    appellants = models.CharField(max_length=255, blank=False, default="")
-    plaintiffs = models.CharField(max_length=255, blank=False, default="")
+    parties = models.TextField(blank=True)
+    appellants = models.TextField(blank=True)
+    plaintiffs = models.TextField(blank=True)
     date = models.DateField()
     tags = ArrayField(models.CharField(max_length=50), blank=True, default=list)
     abstract = models.TextField(blank=True)
     text = models.TextField(blank=True)
+    url = models.CharField(max_length=255, blank=False, default="")
 
     class Meta:
         verbose_name = 'Dómur'
