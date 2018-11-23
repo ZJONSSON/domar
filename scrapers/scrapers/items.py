@@ -5,10 +5,10 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/items.html
 
-import scrapy
+from scrapy_djangoitem import DjangoItem
+from domar.models import Domur
 
 
-class ScrapersItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class DomurItem(DjangoItem):
+    django_model = Domur
+
