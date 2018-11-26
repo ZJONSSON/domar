@@ -32,12 +32,14 @@ then create a superuser:
 
 `python manage.py createsuperuser`
 
+apply all fixtures:
+
+`python manage.py loaddata domar/fixtures/*.json`
+
 and then run the devserver:
 
 `python manage.py runserver`
 
-apply all fixtures:
 
-`python manage.py loaddata domar/fixtures/domstolar_init.json`
 
 
