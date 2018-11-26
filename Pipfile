@@ -17,6 +17,9 @@ scrapy = "*"
 scrapy-djangoitem = "*"
 lxml = "*"
 "html2text" = "*"
+celery = "*"
+django-celery-results = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 
