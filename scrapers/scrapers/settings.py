@@ -11,8 +11,11 @@ env = environ.Env(
 
 DJANGO_PROJECT_ROOT = env('DJANGO_PROJECT_ROOT')
 DJANGO_SETTINGS_MODULE = env('DJANGO_SETTINGS_MODULE')
+#SCRAPERS_ROOT = env('SCRAPERS_ROOT')
 
 sys.path.append(DJANGO_PROJECT_ROOT)
+#sys.path.append(SCRAPERS_ROOT)
+#sys.path.append(os.path.abspath('../../'))
 
 
 django.setup()
@@ -81,9 +84,14 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    'scrapers.pipelines.HaestiretturPipeline': 300,
-}
+
+# We set the pipelines in each scraper
+
+ITEM_PIPELINES = {}
+
+#ITEM_PIPELINES = {
+#    'scrapers.pipelines.HaestiretturPipeline': 300,
+#}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

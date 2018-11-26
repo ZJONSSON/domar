@@ -14,6 +14,10 @@ class HaestiretturSpider(scrapy.Spider):
     name = 'haestirettur'
     allowed_domains = ['haestirettur.is']
 
+    custom_settings = {
+        'ITEM_PIPELINES': {'scrapers.pipelines.HaestiretturPipeline': 300}
+                      }
+
     def __init__(self, offset=0, count=10, margin=30):
         # first run - today is the day
         self.latest_date = datetime.date.today()
