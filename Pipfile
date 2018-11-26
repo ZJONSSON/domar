@@ -20,9 +20,9 @@ lxml = "*"
 celery = "*"
 django-celery-results = "*"
 django-celery-beat = "*"
+fabric = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.7"
 python_version = "3.6"
