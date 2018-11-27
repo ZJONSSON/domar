@@ -119,3 +119,5 @@ pdf/
 lagagogn-django/public/
 *.sublime-workspace
 *.sublime-project
+
+.env-celery
