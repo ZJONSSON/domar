@@ -19,5 +19,5 @@ SCRAPERS_ROOT = env('SCRAPERS_ROOT')
 @task()
 def scrape_haestirettur():
     #os.environ['SCRAPY_SETTINGS_MODULE'] = 'scrapers.settings'
-    return subprocess.call(['scrapy', 'crawl', '--loglevel', 'INFO', 'haestirettur'], cwd=SCRAPERS_ROOT)
+    return subprocess.call(['{}/bin/scrapy'.format(os.environ['VIRTUAL_ENV']), 'crawl', '--loglevel', 'INFO', 'haestirettur'], cwd=SCRAPERS_ROOT)
     #return subprocess.call('pwd')
