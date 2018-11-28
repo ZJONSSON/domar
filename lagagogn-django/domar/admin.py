@@ -17,6 +17,8 @@ class DomstollAdmin(admin.ModelAdmin):
     def domar_count(self, inst):
         return inst.domar_count
 
+    domar_count.short_description = 'Fjöldi dóma'
+
     list_display = ('name', 'domar_count')
     list_filter = ('name',)
 
