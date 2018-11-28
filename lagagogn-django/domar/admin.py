@@ -5,6 +5,7 @@ from .models import Domstoll, Domur
 
 class DomurAdmin(admin.ModelAdmin):
     list_display = ('identifier', 'domstoll', 'date', 'tags')
+    list_filter = ('domstoll',)
 
 admin.site.register(Domstoll)
 admin.site.register(Domur, DomurAdmin)
