@@ -95,6 +95,5 @@ class HeradsdomstolarSpider(scrapy.Spider):
         text_tag = root.xpath('//div[@id="main"]/div[@class="subpagewrapper padding20"]/div[@class="no-anchors"]')[0]
         text_tag = cleaner.clean_html(text_tag)
         item['text'] = text_maker.handle(lxml.html.tostring(text_tag).decode("utf-8"))
-        print(item['text'])
         yield item
 
