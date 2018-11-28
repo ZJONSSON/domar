@@ -1,10 +1,9 @@
 # Create your tasks here
 from __future__ import absolute_import, unicode_literals
-from celery import shared_task, task
+from celery import task
 import os
 import subprocess
 import environ
-import sys
 
 env = environ.Env(
     # set casting, default value
@@ -18,6 +17,9 @@ SCRAPERS_ROOT = env('SCRAPERS_ROOT')
 
 @task()
 def scrape_haestirettur():
-    #os.environ['SCRAPY_SETTINGS_MODULE'] = 'scrapers.settings'
     return subprocess.call(['{}/bin/scrapy'.format(os.environ['VIRTUAL_ENV']), 'crawl', '--loglevel', 'INFO', 'haestirettur'], cwd=SCRAPERS_ROOT)
-    #return subprocess.call('pwd')
+
+
+@task()
+def scrape_heradsdomstolar():
+    return subprocess.call(['{}/bin/scrapy'.format(os.environ['VIRTUAL_ENV']), 'crawl', '--loglevel', 'INFO', 'heradsdomstolar'], cwd=SCRAPERS_ROOT)
