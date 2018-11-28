@@ -20,6 +20,7 @@ class Domur(models.Model):
     parties = models.TextField(blank=True)
     appellants = models.TextField(blank=True)
     plaintiffs = models.TextField(blank=True)
+    judge = models.CharField(max_length=255, blank=True, default="")
     date = models.DateField()
     tags = ArrayField(models.CharField(max_length=50), blank=True, default=list)
     abstract = models.TextField(blank=True)
