@@ -15,7 +15,7 @@ class HaestiretturSpider(scrapy.Spider):
     allowed_domains = ['haestirettur.is']
 
     custom_settings = {
-        'ITEM_PIPELINES': {'scrapers.pipelines.HaestiretturPipeline': 300}
+        'ITEM_PIPELINES': {'scrapers.pipelines.SaveNewItemPipeline': 300}
                       }
 
     def __init__(self, offset=0, count=10, margin=30):

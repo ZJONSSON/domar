@@ -7,7 +7,8 @@
 
 from django.db.utils import IntegrityError
 
-class HaestiretturPipeline(object):
+
+class SaveNewItemPipeline(object):
     def process_item(self, item, spider):
         try:
             item.save()
