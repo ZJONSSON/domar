@@ -8,6 +8,37 @@ from scrapy.exceptions import CloseSpider
 import lxml.html
 from lxml.html.clean import Cleaner
 import html2text
+from dateutil import parser
+
+
+class IcelandicDateParserInfo(parser.parserinfo):
+    def __init__(self):
+        self.WEEKDAYS = [(u"Mán", u"Mánudagur"),
+                         (u"Þri", u"Þriðjudagur"),
+                         (u"Mið", u"Miðvikudagur"),
+                         (u"Fim", u"Fimmtudagur"),
+                         (u"Fös", u"Föstudagur"),
+                         (u"Lau", u"Laugardagur"),
+                         (u"Sun", u"Sunnudagur")]
+        self.MONTHS = [(u"Jan", u"janúar"),
+                       (u"Feb", u"febrúar"),
+                       (u"Mar", u"mars"),
+                       (u"Apr", u"apríl"),
+                       (u"May", u"maí"),
+                       (u"jún", u"júní"),
+                       (u"júl", u"júlí"),
+                       (u"ágú", u"ágúst"),
+                       (u"sep", u"september"),
+                       (u"okt", u"október"),
+                       #(u"nov", u"nóvember"),
+                       (u"nóv", u"nóvember"),
+                       (u"des", u"desember")]
+        parser.parserinfo.__init__(self)
+
+    def __call__(self):
+        """ dateutil calls the parserinfo to instantiate it"""
+        return self
+
 
 
 class HeradsdomstolarSpider(scrapy.Spider):
@@ -43,7 +74,23 @@ class HeradsdomstolarSpider(scrapy.Spider):
         rows = root.xpath('//div[@class="row"]/div[@class="col-sm-6 col-xs-12 verdict-box"]')
         for row in rows:
             item_date = row.xpath('div[@class="sentence"]/a/time')[0].attrib['datetime']
-            item_date_object = datetime.datetime.strptime(item_date, '%Y-%m-%dT%H:%M:%S').date()
+            try:
+                item_date_object = datetime.datetime.strptime(item_date, '%Y-%m-%dT%H:%M:%S').date()
+            except ValueError:
+                # oh god. for some subset the date format is like this:
+                #  Nov  2 2015 12:00AM
+                # WHY???
+                # anyway - we will parse it out differently then
+                try:
+                    day = root.xpath('//div[@class="day"]')[0].text
+                    month = root.xpath('//div[@class="month"]')[0].text
+                    year = root.xpath('//div[@class="year"]')[0].text
+                    datestring = " ".join((day, month, year))
+                    item_date_object = parser.parse(datestring, parserinfo=IcelandicDateParserInfo()).date()
+                except ValueError:
+                    # We give up
+                    item_date_object = None
+
             if self.end <= item_date_object <= self.latest_date:
                 # we have not reached our margin so we shall just continue
                 pass
