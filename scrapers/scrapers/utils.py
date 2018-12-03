@@ -1,6 +1,11 @@
 from dateutil import parser
 from reynir import Reynir
+import os
+from pathlib import Path
 
+SCRAPERS_ROOT = os.environ['SCRAPERS_ROOT']
+
+PDF_ROOT = Path(SCRAPERS_ROOT).parent / "pdf"
 
 r = Reynir()
 
@@ -42,3 +47,14 @@ def parse_sentences(text):
     parsed = r.parse(text)
     sentences = [sentence.tidy_text for sentence in parsed['sentences']]
     return(sentences)
+
+
+def save_judgement_pdf_file(response, court):
+    filename_id = os.path.basename(response.url)
+    year = filename_id[:4]
+    folder = PDF_ROOT / court / year
+    folder.mkdir(parents=True, exist_ok=True)
+    filename = folder / filename_id
+    filename.write_bytes(response.body)
+
+
