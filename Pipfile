@@ -21,6 +21,7 @@ celery = "*"
 django-celery-results = "*"
 django-celery-beat = "*"
 fabric = "*"
+reynir = "*"
 
 [dev-packages]
 
