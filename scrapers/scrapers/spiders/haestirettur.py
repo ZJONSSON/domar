@@ -18,7 +18,7 @@ class HaestiretturSpider(scrapy.Spider):
         'ITEM_PIPELINES': {'scrapers.pipelines.SaveNewItemPipeline': 300}
                       }
 
-    def __init__(self, offset=0, count=10, margin=30):
+    def __init__(self, offset=0, count=10, margin=60):
         # first run - today is the day
         self.latest_date = datetime.date.today()
         # we only deal with the supreme court here
@@ -96,8 +96,7 @@ class HaestiretturSpider(scrapy.Spider):
         # do we have a continue button? If so, let's scrape further
         more_button = root.find_class('moreVer')
         if more_button:
-            offset = offset + 10
-            print(self.base_url.format(offset, count))
+            offset = offset + count
             yield Request(self.overview_url.format(offset, count),
                       meta={'offset': offset, 'count': count},
                       callback=self.parse_overview)
@@ -139,4 +138,5 @@ class HaestiretturSpider(scrapy.Spider):
 
         item['text'] = text_maker.handle(lxml.html.tostring(text_tag).decode("utf-8"))
         yield item
+
 

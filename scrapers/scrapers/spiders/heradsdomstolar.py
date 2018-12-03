@@ -19,7 +19,7 @@ class HeradsdomstolarSpider(scrapy.Spider):
         'ITEM_PIPELINES': {'scrapers.pipelines.SaveNewItemPipeline': 300}
                       }
 
-    def __init__(self, offset=0, count=20, margin=30):
+    def __init__(self, offset=0, count=20, margin=60):
         # first run - today is the day
         self.latest_date = datetime.date.today()
         self.base_url = 'https://www.heradsdomstolar.is'
@@ -89,7 +89,7 @@ class HeradsdomstolarSpider(scrapy.Spider):
                           meta={'item': item})
         # are there rows?
         if len(rows) > 0:
-            offset = offset + 10
+            offset = offset + count
             print(self.base_url.format(offset, count))
             yield Request(self.overview_url.format(offset, count),
                       meta={'offset': offset, 'count': count},
