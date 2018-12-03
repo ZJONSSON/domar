@@ -33,3 +33,11 @@ class Domur(models.Model):
 
     def __str__(self):
         return " - ".join((self.domstoll.name, self.identifier))
+
+
+    def has_text(self):
+        if self.text:
+            return True
+        return False
+    has_text.boolean = True
+    has_text.short_description = 'Dómtexti'
