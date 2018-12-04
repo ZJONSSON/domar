@@ -24,6 +24,7 @@ fabric = "*"
 reynir = "*"
 grpcio = "*"
 wand = "*"
+"django-bootstrap4" = "*"
 
 [dev-packages]
 
