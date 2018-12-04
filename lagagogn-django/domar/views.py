@@ -1,18 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from domar.models import Domur
+from domar.models import Domur, Domstoll
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
 
 
 def index(request):
     latest_domar_list = Domur.objects.order_by('-date')[:20]
-    context = {'domar': latest_domar_list}
+    domstolar = Domstoll.objects.all()
+    context = {'domar': latest_domar_list, 'domstolar': domstolar}
     return render(request, 'home.html', context)
 
 
 def domur(request, domstoll, slug):
     obj = get_object_or_404(Domur, slug=slug)
     context = {'domur': obj}
+    return render(request, 'domur.html', context)
+
+def domstoll(request, domstoll):
+    obj = get_object_or_404(Domstoll, name=domstoll)
+    context = {'domstoll': obj}
     return render(request, 'domur.html', context)
 

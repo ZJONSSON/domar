@@ -62,5 +62,7 @@ class DomstollAdmin(admin.ModelAdmin):
     list_display = ('name', 'domar_count')
     list_filter = ('name',)
 
+    prepopulated_fields = {"slug": ("name",)}
+
 admin.site.register(Domstoll, DomstollAdmin)
 admin.site.register(Domur, DomurAdmin)

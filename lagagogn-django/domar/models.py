@@ -7,7 +7,7 @@ from django.utils.text import slugify
 class Domstoll(models.Model):
     name = models.CharField(max_length=128, verbose_name="nafn")
     url = models.CharField(max_length=255, verbose_name="slóð")
-
+    slug = models.SlugField(max_length=100, default="")
 
     class Meta:
         verbose_name = 'Dómstóll'
@@ -15,6 +15,10 @@ class Domstoll(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('domstoll',
+            args=[self.slug])
 
 
 class Domur(models.Model):
@@ -40,9 +44,7 @@ class Domur(models.Model):
 
     def get_absolute_url(self):
         return reverse('domur',
-            args=[str(slugify(self.domstoll.name,
-                allow_unicode=True)),
-            self.slug])
+            args=[self.domstoll.slug, self.slug])
 
 
     def has_text(self):
