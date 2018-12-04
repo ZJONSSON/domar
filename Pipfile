@@ -25,6 +25,7 @@ reynir = "*"
 grpcio = "*"
 wand = "*"
 "django-bootstrap4" = "*"
+django-extensions = "*"
 
 [dev-packages]
 

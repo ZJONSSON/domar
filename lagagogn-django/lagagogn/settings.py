@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'domar.apps.DomarConfig',
     'django_celery_results',
     'django_celery_beat',
-    'bootstrap4'
+    'bootstrap4',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
