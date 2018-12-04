@@ -9,7 +9,7 @@ class LatestDomar(Feed):
     description = "Nýjustu dómarnir frá dómstólum"
 
     def items(self):
-        return Domur.objects.order_by('-date')[:5]
+        return Domur.objects.order_by('-date')[:20]
 
     def item_title(self, item):
         return item
@@ -17,6 +17,6 @@ class LatestDomar(Feed):
     def item_description(self, item):
         return item.abstract
 
-    # item_link is only needed if NewsItem has no get_absolute_url method.
     #def item_link(self, item):
-    #    return reverse('domur', args=[item.pk])
+    #    return item.url
+        #return reverse('domur', args=[item.pk])

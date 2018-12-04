@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.urls import reverse
+from django.utils.text import slugify
 
 
 class Domstoll(models.Model):
@@ -33,6 +35,12 @@ class Domur(models.Model):
 
     def __str__(self):
         return " - ".join((self.domstoll.name, self.identifier))
+
+    def get_absolute_url(self):
+        return reverse('domur',
+            args=[str(slugify(self.domstoll.name,
+                allow_unicode=True)),
+            str(self.identifier.replace('/', '-'))]) # TODO - fix this
 
 
     def has_text(self):

@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from domar.feeds import LatestDomar
+from domar import views
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
     path('domar/feed/', LatestDomar()),
+    path('domar/<str:domstoll>/<identifier>/', views.domur, name='domur'),
 ]
 
 admin.site.site_header = 'Lagagögn'

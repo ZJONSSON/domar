@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'domar.apps.DomarConfig',
     'django_celery_results',
     'django_celery_beat',
+    'bootstrap4'
 ]
 
 MIDDLEWARE = [
@@ -74,7 +75,7 @@ ROOT_URLCONF = 'lagagogn.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
