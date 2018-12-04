@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Lagagögn{% endblock %}
+
+{% block content %}
+<br />
+<div class="container">
+
+{% for domur in domar %}
+
+    <h4>{{ domur.domstoll }}   <a href={{ domur.get_absolute_url }}>{{ domur.identifier }}</a></h4>
+    <p>{{domur.date|date:'d.m.Y'}}</p>
+    <p>{{ domur.tags|join:", " }}</p>
+    <p>{{ domur.abstract}}</p>
+    <hr/>
+{% endfor %}
+
+</div>
+
+{% endblock %}

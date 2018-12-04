@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Lagagögn{% endblock %}
+
+{% block content %}
+<br />
+<div class="container">
+
+
+    <h4>{{ domur.domstoll }} {{ domur.identifier }}</h4>
+    <p>{{domur.date|date:'d.m.Y'}}</p>
+    <p>{{ domur.tags|join:", " }}</p>
+    <p><a href={{ domur.url }}>Slóð á vef dómstólsins</a></p>
+    <br />
+    <h5>Reifun:</h5>
+    <p>{{ domur.abstract}}</p>
+    <br />
+    <h5>Dómsorð:</h5>
+    <div style="white-space: pre-wrap;">{{ domur.text}}</div>
+    <hr/>
+
+</div>
+
+{% endblock %}
