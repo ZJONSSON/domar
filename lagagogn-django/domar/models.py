@@ -44,7 +44,7 @@ class Domur(models.Model):
 
     def get_absolute_url(self):
         return reverse('domur',
-            args=[self.domstoll.slug, self.slug])
+            args=[self.domstoll.slug, self.slu]gloc)
 
 
     def has_text(self):

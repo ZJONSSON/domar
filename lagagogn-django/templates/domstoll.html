@@ -6,15 +6,9 @@
 {% block content %}
 <br />
 <div class="container">
-<h4>Dómstólar</h4>
-<br />
-<ul class="list-inline">
-{% for domstoll in domstolar %}
-<li class="list-inline-item"><a href={{ domstoll.get_absolute_url }}>{{domstoll}}</a></li>
-{% endfor %}
-</ul>
-<br /><br />
-<h4>Nýjustu dómar</h4>
+
+
+    <h4>Nýjustu dómar: {{domstoll.name}}</h4>
 <br />
 {% for domur in domar %}
 
@@ -24,7 +18,6 @@
     <p>{{ domur.abstract}}</p>
     <hr/>
 {% endfor %}
-
 </div>
 
 {% endblock %}

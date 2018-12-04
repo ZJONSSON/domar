@@ -1,8 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from domar.models import Domur, Domstoll
 from django.shortcuts import get_object_or_404, render
-from django.template import loader
 
 
 def index(request):
@@ -17,8 +14,10 @@ def domur(request, domstoll, slug):
     context = {'domur': obj}
     return render(request, 'domur.html', context)
 
-def domstoll(request, domstoll):
-    obj = get_object_or_404(Domstoll, name=domstoll)
-    context = {'domstoll': obj}
-    return render(request, 'domur.html', context)
+
+def domstoll(request, slug):
+    obj = get_object_or_404(Domstoll, slug=slug)
+    latest_domar_list = Domur.objects.filter(domstoll__slug=slug).order_by('-date')[:20]
+    context = {'domstoll': obj, 'domar': latest_domar_list}
+    return render(request, 'domstoll.html', context)
 
