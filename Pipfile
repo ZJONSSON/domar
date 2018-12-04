@@ -23,6 +23,7 @@ django-celery-beat = "*"
 fabric = "*"
 reynir = "*"
 grpcio = "*"
+wand = "*"
 
 [dev-packages]
 
