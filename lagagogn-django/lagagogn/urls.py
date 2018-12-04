@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from domar.feeds import LatestDomar
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
+    path('domar/feed/', LatestDomar()),
 ]
 
 admin.site.site_header = 'Lagagögn'
