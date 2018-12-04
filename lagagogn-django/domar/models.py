@@ -17,9 +17,7 @@ class Domstoll(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('domstoll',
-            args=[self.slug])
-
+        return reverse('domstoll', args=[self.slug])
 
 class Domur(models.Model):
     identifier = models.CharField(max_length=20, unique=True)
@@ -44,7 +42,7 @@ class Domur(models.Model):
 
     def get_absolute_url(self):
         return reverse('domur',
-            args=[self.domstoll.slug, self.slu]gloc)
+            args=[self.domstoll.slug, self.slug])
 
 
     def has_text(self):
