@@ -19,7 +19,10 @@ SCRAPERS_ROOT = env('SCRAPERS_ROOT')
 def scrape_haestirettur():
     return subprocess.call(['{}/bin/scrapy'.format(os.environ['VIRTUAL_ENV']), 'crawl', '--loglevel', 'INFO', 'haestirettur'], cwd=SCRAPERS_ROOT)
 
-
 @task()
 def scrape_heradsdomstolar():
     return subprocess.call(['{}/bin/scrapy'.format(os.environ['VIRTUAL_ENV']), 'crawl', '--loglevel', 'INFO', 'heradsdomstolar'], cwd=SCRAPERS_ROOT)
+
+@task()
+def scrape_landsrettur():
+    return subprocess.call(['{}/bin/scrapy'.format(os.environ['VIRTUAL_ENV']), 'crawl', '--loglevel', 'INFO', 'landsrettur'], cwd=SCRAPERS_ROOT)
