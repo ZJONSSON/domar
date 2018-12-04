@@ -14,7 +14,6 @@ from google.cloud import vision
 from google.cloud.vision import types
 
 
-
 class LandsretturSpider(scrapy.Spider):
     name = 'landsrettur'
     allowed_domains = ['landsrettur.is']
@@ -31,7 +30,6 @@ class LandsretturSpider(scrapy.Spider):
         keywords = keywords_script.split(',')
         keywords = set([keyword.replace('"', '').strip() for keyword in keywords])
 
-
     def __init__(self, offset=0, count=10, margin=30):
         # first run - today is the day
         self.latest_date = datetime.date.today()
@@ -46,13 +44,11 @@ class LandsretturSpider(scrapy.Spider):
 
         self.client = vision.ImageAnnotatorClient()
 
-
     def start_requests(self):
         # first request
         yield Request(self.overview_url.format(self.offset, self.count),
                       meta={'offset': self.offset, 'count': self.count},
                       callback=self.parse_overview)
-
 
     def parse_overview(self, response):
         offset = int(response.meta['offset'])
@@ -125,41 +121,17 @@ class LandsretturSpider(scrapy.Spider):
         item = response.meta['item']
         save_judgement_pdf_file(response, str(self.domstoll))
         f = io.BytesIO(response.body)
-        all_pages = Image(blob=f, resolution=300)
-        text = ""
-        for img in all_pages.sequence:
-            img_page = Image(image=img)
-            img_page.format = 'png'
-            output = io.BytesIO()
-            img_page.save(file=output)
-            image = types.Image(content=output.getvalue())
-            response = self.client.document_text_detection(image=image)
-            text = text + response.text_annotations[0].description
-
-
-        # read_pdf = PyPDF2.PdfFileReader(f)
-        # number_of_pages = read_pdf.getNumPages()
-        # text = ""
-        # for i in range(0, number_of_pages):
-        #     page = read_pdf.getPage(i)
-        #     page_content = page.extractText()
-        #     text = text + page_content
-
-
+        with Image(blob=f, resolution=150) as all_pages:
+            f.close()
+            text = ""
+            for img in all_pages.sequence:
+                with Image(image=img) as img_page:
+                    img_page.format = 'png'
+                    output = io.BytesIO()
+                    img_page.save(file=output)
+                    image = types.Image(content=output.getvalue())
+                    output.close()
+                    response = self.client.document_text_detection(image=image)
+                    text = text + response.text_annotations[0].description
         item['text'] = text
         yield item
-        # tags_tag = root.xpath('//div[@class="verdict-keywords"]/ul/li[@class="keyword"]')
-        # tags = [tag.text for tag in tags_tag]
-        # item['tags'] = tags
-        # cleaner = Cleaner()
-        # cleaner.kill_tags = ['title']
-        # text_maker = html2text.HTML2Text()
-        # text_maker.unicode_snob = True
-        # text_maker.body_width = 0
-        # text_maker.ignore_anchors = True
-        # text_maker.ignore_emphasis = True
-        # text_tag = root.xpath('//div[@id="main"]/div[@class="subpagewrapper padding20"]/div[@class="no-anchors"]')[0]
-        # text_tag = cleaner.clean_html(text_tag)
-        # item['text'] = text_maker.handle(lxml.html.tostring(text_tag).decode("utf-8"))
-        # yield item
-
