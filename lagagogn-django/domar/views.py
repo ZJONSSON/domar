@@ -11,9 +11,8 @@ def index(request):
     return render(request, 'home.html', context)
 
 
-def domur(request, domstoll, identifier):
-    identifier = identifier.replace('-', '/')
-    obj = get_object_or_404(Domur, identifier=identifier)
+def domur(request, domstoll, slug):
+    obj = get_object_or_404(Domur, slug=slug)
     context = {'domur': obj}
     return render(request, 'domur.html', context)
 

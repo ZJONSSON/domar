@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('domar/feed/', LatestDomar()),
-    path('domar/<str:domstoll>/<identifier>/', views.domur, name='domur'),
+    path('domar/<str:domstoll>/<slug>/', views.domur, name='domur'),
 ]
 
 admin.site.site_header = 'Lagagögn'

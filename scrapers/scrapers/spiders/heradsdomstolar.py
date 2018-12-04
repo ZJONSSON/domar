@@ -9,6 +9,7 @@ import lxml.html
 from lxml.html.clean import Cleaner
 import html2text
 from scrapers.utils import parse_icelandic_date
+from django.utils.text import slugify
 
 
 class HeradsdomstolarSpider(scrapy.Spider):
@@ -78,6 +79,7 @@ class HeradsdomstolarSpider(scrapy.Spider):
             item['domstoll'] = domstoll
             identifier_tag = row.xpath('div[@class="sentence"]/a/h2')[0]
             item['identifier'] = identifier_tag.text
+            item['slug'] = slugify(identifier_tag.text)
             judge_tag = row.xpath('div[@class="sentence"]/a/span[@class="person"]')[0]
             item['judge'] = judge_tag.text
             try:

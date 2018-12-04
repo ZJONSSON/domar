@@ -12,6 +12,7 @@ import io
 from wand.image import Image
 from google.cloud import vision
 from google.cloud.vision import types
+from django.utils.text import slugify
 
 
 class LandsretturSpider(scrapy.Spider):
@@ -65,7 +66,7 @@ class LandsretturSpider(scrapy.Spider):
                 # Already seen this and saved. Nothing more to do.to
                 self.logger.info('Already seen: {}'.format(item['identifier']))
                 continue
-
+            item['slug'] = slugify(identifier_tag.text)
             item_date = row.xpath('div[@class="sentence"]/time')[0].attrib['datetime']
             item_date_object = datetime.datetime.strptime(item_date, '%d.%m.%Y %H:%M:%S').date()
             if self.end <= item_date_object <= self.latest_date:

@@ -8,6 +8,7 @@ from scrapy.exceptions import CloseSpider
 import lxml.html
 from lxml.html.clean import Cleaner
 import html2text
+from django.utils.text import slugify
 
 
 class HaestiretturSpider(scrapy.Spider):
@@ -68,6 +69,7 @@ class HaestiretturSpider(scrapy.Spider):
 
             identifier_tag = url.xpath('h2')[0]
             item['identifier'] = identifier_tag.text
+            item['slug'] = slugify(identifier_tag.text)
 
             try:
                 parties_tag = url.xpath('p')[0]

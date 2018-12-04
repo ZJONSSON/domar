@@ -8,6 +8,7 @@ class Domstoll(models.Model):
     name = models.CharField(max_length=128, verbose_name="nafn")
     url = models.CharField(max_length=255, verbose_name="slóð")
 
+
     class Meta:
         verbose_name = 'Dómstóll'
         verbose_name_plural = 'Dómstólar'
@@ -28,6 +29,7 @@ class Domur(models.Model):
     abstract = models.TextField(blank=True)
     text = models.TextField(blank=True)
     url = models.CharField(max_length=255, blank=False, default="")
+    slug = models.SlugField(max_length=100, default="")
 
     class Meta:
         verbose_name = 'Dómur'
@@ -40,7 +42,7 @@ class Domur(models.Model):
         return reverse('domur',
             args=[str(slugify(self.domstoll.name,
                 allow_unicode=True)),
-            str(self.identifier.replace('/', '-'))]) # TODO - fix this
+            self.slug])
 
 
     def has_text(self):
