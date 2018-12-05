@@ -13,6 +13,8 @@ from wand.image import Image
 from google.cloud import vision
 from google.cloud.vision import types
 from django.utils.text import slugify
+from lxml.html.clean import Cleaner
+import html2text
 
 
 class LandsretturSpider(scrapy.Spider):
@@ -113,10 +115,29 @@ class LandsretturSpider(scrapy.Spider):
     def find_pdf_link(self, response):
         item = response.meta['item']
         root = lxml.html.fromstring(response.text)
-        pdf_link = root.xpath('//a[contains(@class, "pdflink")]')[0]
-        pdf_url = self.base_url + pdf_link.attrib['href']
-        yield Request(pdf_url, callback=self.parse_pdf,
+        try:
+            pdf_link = root.xpath('//a[contains(@class, "pdflink")]')[0]
+            pdf_url = self.base_url + pdf_link.attrib['href']
+            yield Request(pdf_url, callback=self.parse_pdf,
                            meta={'item': item})
+        except IndexError:
+            # No pdf link
+            #cleaner = Cleaner()
+            #cleaner.kill_tags = ['title']
+            text_maker = html2text.HTML2Text()
+            text_maker.unicode_snob = True
+            text_maker.body_width = 0
+            text_maker.ignore_anchors = True
+            text_maker.ignore_emphasis = True
+            text_tag = root.xpath('//div[@class="verdict"]')[0]
+            # Drop tags we do not want
+            text_tag.find('.//div[@class="verdict-head"]').drop_tree()
+            # Twice!
+            text_tag.find('.//div[@class="keywords"]').drop_tree()
+            text_tag.find('.//div[@class="keywords"]').drop_tree()
+            item['text'] = text_maker.handle(lxml.html.tostring(text_tag).decode("utf-8"))
+            yield item
+
 
     def parse_pdf(self, response):
         item = response.meta['item']
