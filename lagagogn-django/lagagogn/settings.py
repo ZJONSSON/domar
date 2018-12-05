@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'bootstrap4',
     'django_extensions',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'lagagogn.urls'
@@ -142,3 +144,6 @@ STATIC_URL = '/static/'
 # CELERY
 
 CELERY_RESULT_BACKEND = 'django-db'
+
+# Django debug toolbar
+INTERNAL_IPS = ['127.0.0.1']

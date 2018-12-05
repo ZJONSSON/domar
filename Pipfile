@@ -26,6 +26,7 @@ grpcio = "*"
 wand = "*"
 "django-bootstrap4" = "*"
 django-extensions = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

@@ -14,10 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls import include
 from domar.feeds import LatestDomar
 from domar import views
+from django.conf import settings
+
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')), # grappelli URLS
@@ -29,3 +31,12 @@ urlpatterns = [
 ]
 
 admin.site.site_header = 'Lagagögn'
+
+# django debug toolbar
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+
+    ] + urlpatterns
