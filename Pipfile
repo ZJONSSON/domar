@@ -27,8 +27,10 @@ wand = "*"
 "django-bootstrap4" = "*"
 django-extensions = "*"
 django-debug-toolbar = "*"
+django-markdown-deux = "*"
 
 [dev-packages]
+jupyter = "*"
 
 [requires]
 python_version = "3.6"
