@@ -6,9 +6,7 @@ from scrapy.http.request import Request
 import datetime
 from scrapy.exceptions import CloseSpider
 import lxml.html
-from lxml.html.clean import Cleaner
-import html2text
-from scrapers.utils import parse_icelandic_date
+from scrapers.utils import parse_icelandic_date, clean_domur_response, get_markdown
 from django.utils.text import slugify
 
 
@@ -99,20 +97,11 @@ class HeradsdomstolarSpider(scrapy.Spider):
 
     def parse_judgement(self, response):
         item = response.meta['item']
-        root = lxml.html.fromstring(response.text)
-
+        root = clean_domur_response(response.text)
         tags_tag = root.xpath('//div[@class="verdict-keywords"]/ul/li[@class="keyword"]')
         tags = [tag.text for tag in tags_tag]
         item['tags'] = tags
-        cleaner = Cleaner()
-        cleaner.kill_tags = ['title']
-        text_maker = html2text.HTML2Text()
-        text_maker.unicode_snob = True
-        text_maker.body_width = 0
-        text_maker.ignore_anchors = True
-        text_maker.ignore_emphasis = True
         text_tag = root.xpath('//div[@id="main"]/div[@class="subpagewrapper padding20"]/div[@class="no-anchors"]')[0]
-        text_tag = cleaner.clean_html(text_tag)
-        item['text'] = text_maker.handle(lxml.html.tostring(text_tag).decode("utf-8"))
+        item['text'] = get_markdown(text_tag)
         yield item
 

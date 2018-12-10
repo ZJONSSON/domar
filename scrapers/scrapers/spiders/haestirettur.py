@@ -6,9 +6,8 @@ from scrapy.http.request import Request
 import datetime
 from scrapy.exceptions import CloseSpider
 import lxml.html
-from lxml.html.clean import Cleaner
-import html2text
 from django.utils.text import slugify
+from scrapers.utils import clean_domur_response, get_markdown
 
 
 class HaestiretturSpider(scrapy.Spider):
@@ -105,7 +104,7 @@ class HaestiretturSpider(scrapy.Spider):
 
     def parse_judgement(self, response):
         item = response.meta['item']
-        root = lxml.html.fromstring(response.text)
+        root = clean_domur_response(response.text)
         # old judgements do not have the apellants or plaintiffs tags
         try:
             appellants_tag = root.xpath('//div[@class="appelants"]')[0]
@@ -114,31 +113,13 @@ class HaestiretturSpider(scrapy.Spider):
             item['plaintiffs'] = plaintiffs_tag.text_content()
         except IndexError:
             pass
-
-        # lets get the text
-
-        # cleaner options for the main text
-        cleaner = Cleaner()
-        # old verdicts have a lot of Microsoft Word elements - one of them is title
-        cleaner.kill_tags = ['title']
-
-        # set up the html2text options
-        text_maker = html2text.HTML2Text()
-        text_maker.unicode_snob = True
-        text_maker.body_width = 0
-        text_maker.ignore_anchors = True
-        text_maker.ignore_emphasis = True
-
         # get the verdict
         text_tag = root.xpath('//div[@class="verdict"]')[0]
-        # clean it
-        text_tag = cleaner.clean_html(text_tag)
-
         # remove the pdf links
         for r in text_tag.xpath('.//a[@class="pdflink pull-right"]'):
             r.getparent().remove(r)
 
-        item['text'] = text_maker.handle(lxml.html.tostring(text_tag).decode("utf-8"))
+        item['text'] = get_markdown(text_tag)
         yield item
 
 

@@ -2,12 +2,16 @@ from dateutil import parser
 from reynir import Reynir
 import os
 from pathlib import Path
+import lxml.html
+import html2text
+
 
 SCRAPERS_ROOT = os.environ['SCRAPERS_ROOT']
 
 PDF_ROOT = Path(SCRAPERS_ROOT).parent / "pdf"
 
 r = Reynir()
+
 
 class IcelandicDateParserInfo(parser.parserinfo):
     def __init__(self):
@@ -58,3 +62,31 @@ def save_judgement_pdf_file(response, court):
     filename.write_bytes(response.body)
 
 
+def remove_element(el):
+    # see: https://stackoverflow.com/a/53572856
+    parent = el.getparent()
+    if el.tail is not None:
+        if el.tail.strip():
+            prev = el.getprevious()
+            if prev:
+                prev.tail = (prev.tail or '') + el.tail
+            else:
+                parent.text = (parent.text or '') + el.tail
+    parent.remove(el)
+
+
+def clean_domur_response(response_text):
+    text = response_text.replace('<o:p>','').replace('</o:p>','').replace('&nbsp;','')
+    root = lxml.html.fromstring(text)
+    # remove empty tags
+    for el in root.xpath("//*[not(normalize-space())]"):
+        remove_element(el)
+    return root
+
+
+def get_markdown(text_tag):
+    text_maker = html2text.HTML2Text()
+    text_maker.unicode_snob = True
+    text_maker.body_width = 0
+    text_maker.ignore_anchors = True
+    return text_maker.handle(lxml.html.tostring(text_tag, method='html', encoding='unicode'))
