@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django_extensions',
     'debug_toolbar',
+    'markdown_deux',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,16 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 # Django debug toolbar
 INTERNAL_IPS = ['127.0.0.1']
+
+MARKDOWN_DEUX_STYLES = {
+    "default": {
+        "extras": {
+            "code-friendly": None,
+        },
+        "safe_mode": "escape",
+    },
+    "domar_style": {
+
+        #"safe_mode": "escape",
+    },
+}

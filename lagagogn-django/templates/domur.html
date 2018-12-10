@@ -4,6 +4,7 @@
 {% block title %}Lagagögn{% endblock %}
 
 {% block content %}
+{% load markdown_deux_tags %}
 <br />
 <div class="container">
 
@@ -17,7 +18,7 @@
     <p>{{ domur.abstract}}</p>
     <br />
     <h5>Dómsorð:</h5>
-    <div style="white-space: pre-wrap;">{{ domur.text}}</div>
+    <div>{{ domur.text|markdown:"domar_style"}}</div>
     <hr/>
 
 </div>
