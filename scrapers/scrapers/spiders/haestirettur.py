@@ -123,7 +123,7 @@ class HaestiretturSpider(scrapy.Spider):
         if len(keyword_divs) == 1:
             # Drop the tags
             if item['tags']:
-                text_tag.find('.//div[@class="keywords"]').drop_tree()
+                keyword_divs[0].drop_tree()
         if len(keyword_divs) == 2:
             # drop the tags and the abstract
             if item['tags']:
