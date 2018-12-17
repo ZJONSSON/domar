@@ -113,8 +113,25 @@ class HaestiretturSpider(scrapy.Spider):
             item['plaintiffs'] = plaintiffs_tag.text_content()
         except IndexError:
             pass
+
         # get the verdict
         text_tag = root.xpath('//div[@class="verdict"]')[0]
+        # Find the keyword divs. In modern times they are two
+        # The first one is the tags and the second one is the abstract
+        # In older judgements we only have tags
+        keyword_divs = text_tag.xpath('.//div[@class="keywords"]')
+        if len(keyword_divs) == 1:
+            # Drop the tags
+            if item['tags']:
+                keyword_divs[0].drop_tree()
+        if len(keyword_divs) == 2:
+            # drop the tags and the abstract
+            if item['tags']:
+                # The tags live in the first keyword div
+                keyword_divs[0].drop_tree()
+            if item['abstract']:
+                # and the abstract in the second
+                keyword_divs[1].drop_tree()
         # remove the pdf links
         for r in text_tag.xpath('.//a[@class="pdflink pull-right"]'):
             r.getparent().remove(r)

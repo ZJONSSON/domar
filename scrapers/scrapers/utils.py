@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import lxml.html
 import html2text
+import lxml.html.clean
 
 
 SCRAPERS_ROOT = os.environ['SCRAPERS_ROOT']
@@ -76,11 +77,25 @@ def remove_element(el):
 
 
 def clean_domur_response(response_text):
-    text = response_text.replace('<o:p>','').replace('</o:p>','').replace('&nbsp;','')
+    text = response_text.replace('<o:p>', '')
+    text = text.replace('</o:p>', '')
+    text = text.replace('&nbsp;', ' ')
+    text = text.replace('<hr>', '<hr />')
+    text = text.replace('<br>', '<br />')
+    # Hello non-breaking space
+    text = text.replace('\xa0', ' ')
     root = lxml.html.fromstring(text)
+    cleaner = lxml.html.clean.Cleaner(style=True)
+    root = cleaner.clean_html(root)
     # remove empty tags
     for el in root.xpath("//*[not(normalize-space())]"):
         remove_element(el)
+    # if we have tables, then remove paragraph tags from them
+    # (but keep their content)
+    for table in root.xpath('//table'):
+        ps = table.findall('.//p')
+        for p in ps:
+            p.drop_tag()
     return root
 
 
@@ -89,4 +104,10 @@ def get_markdown(text_tag):
     text_maker.unicode_snob = True
     text_maker.body_width = 0
     text_maker.ignore_anchors = True
-    return text_maker.handle(lxml.html.tostring(text_tag, method='html', encoding='unicode'))
+    text = text_maker.handle(lxml.html.tostring(text_tag, method='html', encoding='unicode'))
+    # it so happens that the emphasis has a trailing (or leading) space
+    # See line 155: https://www.haestirettur.is/default.aspx?\
+    # pageid=347c3bb1-8926-11e5-80c6-005056bc6a40&id=c406c42d-8170-41db-9f05-bd4f8c75fc5e
+    text = text.replace(' _', '_')
+    text = text.replace('_ ', '_')
+    return text
