@@ -121,3 +121,4 @@ lagagogn-django/public/
 *.sublime-project
 
 .env-celery
+/.project
