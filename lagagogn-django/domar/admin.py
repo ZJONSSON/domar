@@ -6,46 +6,39 @@ from .models import Domstoll, Domur
 from django.utils.translation import gettext_lazy as _
 
 
-class DomurHasTextListFilter(admin.SimpleListFilter):
-    # Human-readable title which will be displayed in the
-    # right admin sidebar just above the filter options.
-    title = _('Dómtexti')
+def has_attribute_filter(has_attribute):
+    class GenericDomurHasListFilter(admin.SimpleListFilter):
 
-    # Parameter for the filter that will be used in the URL query.
-    parameter_name = 'text'
+        function = getattr(Domur, has_attribute)
+        title = _(function.short_description)
+        parameter_name = function.parameter_name
 
-    def lookups(self, request, model_admin):
-        """
-        Returns a list of tuples. The first element in each
-        tuple is the coded value for the option that will
-        appear in the URL query. The second element is the
-        human-readable name for the option that will appear
-        in the right sidebar.
-        """
-        return (
-            ('false', _('Vantar')),
-            ('true', _('Til staðar')),
-        )
+        def lookups(self, request, model_admin):
+            return (
+                ('false', _('Vantar')),
+                ('true', _('Til staðar')),
+            )
 
-    def queryset(self, request, queryset):
-        """
-        Returns the filtered queryset based on the value
-        provided in the query string and retrievable via
-        `self.value()`.
-        """
-        if self.value() == 'false':
-            missing = [x.id for x in queryset if not x.has_text()]
-            return queryset.filter(pk__in=missing)
-        if self.value() == 'true':
-            exists = [x.id for x in queryset if x.has_text()]
-            return queryset.filter(pk__in=exists)
+        def queryset(self, request, queryset):
+            if self.value() == 'false':
+                missing = [x.id for x in queryset if not getattr(x, has_attribute)()]
+                return queryset.filter(pk__in=missing)
+            if self.value() == 'true':
+                exists = [x.id for x in queryset if getattr(x, has_attribute)()]
+                return queryset.filter(pk__in=exists)
+
+    return GenericDomurHasListFilter
 
 
+has_attributes = ['has_text', 'has_parties', 'has_appellants', 'has_plaintiffs', 'has_judge', 'has_abstract']
+domur_has_list_filters = []
+for has_attribute in has_attributes:
+    domur_has_list_filters.append(has_attribute_filter(has_attribute))
 
 
 class DomurAdmin(admin.ModelAdmin):
-    list_display = ('identifier', 'domstoll', 'date', 'tags', 'has_text')
-    list_filter = ('domstoll', DomurHasTextListFilter)
+    list_display = ['identifier', 'domstoll', 'date', 'tags'] + has_attributes
+    list_filter = ['domstoll'] + domur_has_list_filters
 
 
 class DomstollAdmin(admin.ModelAdmin):
